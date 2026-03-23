@@ -1,0 +1,5 @@
+mne
+autoreject
+numpy
+scipy
+pandas
