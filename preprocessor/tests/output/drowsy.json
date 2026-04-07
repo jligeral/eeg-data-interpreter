@@ -1,0 +1,44 @@
+{
+  "filepath": "/Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/drowsy.fif",
+  "file_format": ".fif",
+  "sampling_rate": 256.0,
+  "n_channels": 19,
+  "channel_labels": [
+    "Fp1",
+    "Fp2",
+    "F7",
+    "F3",
+    "Fz",
+    "F4",
+    "F8",
+    "T3",
+    "C3",
+    "Cz",
+    "C4",
+    "T4",
+    "T5",
+    "P3",
+    "Pz",
+    "P4",
+    "T6",
+    "O1",
+    "O2"
+  ],
+  "missing_channels": [],
+  "unknown_channels": [],
+  "dropped_channels": [],
+  "flat_channels": [],
+  "high_amplitude_channels": [],
+  "montage_ok": true,
+  "n_epochs_before": 0,
+  "n_epochs_rejected": 0,
+  "data_quality": "moderate",
+  "confounds": [
+    "drowsiness_moderate:late_recording"
+  ],
+  "processing_notes": [
+    "Bandpass filter applied: 0.5\u201340.0 Hz, FIR zero-phase Hamming window",
+    "Ocular detection used frontal fallback channel: Fp1",
+    "Artifact detection added confounds: ['drowsiness_moderate:late_recording']"
+  ]
+}

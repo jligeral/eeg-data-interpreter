@@ -1,0 +1,47 @@
+{
+  "filepath": "/Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/low_sfreq.edf",
+  "file_format": ".edf",
+  "sampling_rate": 64.0,
+  "n_channels": 19,
+  "channel_labels": [
+    "Fp1",
+    "Fp2",
+    "F7",
+    "F3",
+    "Fz",
+    "F4",
+    "F8",
+    "T3",
+    "C3",
+    "Cz",
+    "C4",
+    "T4",
+    "T5",
+    "P3",
+    "Pz",
+    "P4",
+    "T6",
+    "O1",
+    "O2"
+  ],
+  "missing_channels": [],
+  "unknown_channels": [],
+  "dropped_channels": [],
+  "flat_channels": [],
+  "high_amplitude_channels": [],
+  "montage_ok": true,
+  "n_epochs_before": 0,
+  "n_epochs_rejected": 0,
+  "data_quality": "poor",
+  "confounds": [
+    "sampling_rate_low:64.0Hz",
+    "ocular_moderate"
+  ],
+  "processing_notes": [
+    "High cutoff adjusted from 40.0 to 28.8 Hz \u2014 sampling rate only 64.0 Hz",
+    "Bandpass filter applied: 0.5\u201328.8 Hz, FIR zero-phase Hamming window",
+    "Ocular detection used frontal fallback channel: Fp1",
+    "ICA removed ocular-related components [np.int64(8)] using reference Fp1.",
+    "Artifact detection added confounds: ['ocular_moderate']"
+  ]
+}

@@ -1,0 +1,14 @@
+EEG Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/flat_channel.fif
+  Format       : .fif
+  Quality      : ⚠ MODERATE
+  Sampling rate: 256.0 Hz
+  Channels     : 19
+  Flat chs     : Cz
+  Confounds (1):
+    • flat_channels:Cz
+  Processing notes (3):
+    • Bandpass filter applied: 0.5–40.0 Hz, FIR zero-phase Hamming window
+    • Ocular detection used frontal fallback channel: Fp1
+    • Artifact detection found no major confounds.

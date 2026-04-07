@@ -1,0 +1,17 @@
+EEG Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/clean_full_montage.csv
+  Format       : .csv
+  Quality      : ✗ POOR
+  Sampling rate: 256.0 Hz
+  Channels     : 19
+  Missing chs  : Fp1, Fp2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+  High-amp chs : EEG1, EEG2, EEG3, EEG4, EEG5, EEG6, EEG7, EEG8, EEG9, EEG10, EEG11, EEG12, EEG13, EEG14, EEG15, EEG16, EEG17, EEG18, EEG19
+  Confounds (2):
+    • missing_posterior_channels:O1,O2,P3,P4,T5,T6
+    • high_amplitude_channels:EEG1,EEG2,EEG3,EEG4,EEG5,EEG6,EEG7,EEG8,EEG9,EEG10,EEG11,EEG12,EEG13,EEG14,EEG15,EEG16,EEG17,EEG18,EEG19
+  Processing notes (4):
+    • Bandpass filter applied: 0.5–40.0 Hz, FIR zero-phase Hamming window
+    • Ocular artifact check skipped: no EOG or frontal proxy channel available.
+    • Drowsiness check skipped: O1/O2 not both available.
+    • Artifact detection found no major confounds.

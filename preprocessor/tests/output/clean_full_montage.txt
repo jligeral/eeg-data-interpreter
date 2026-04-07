@@ -1,0 +1,12 @@
+EEG Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/clean_full_montage.fif
+  Format       : .fif
+  Quality      : ✓ GOOD
+  Sampling rate: 256.0 Hz
+  Channels     : 19
+  Confounds    : none
+  Processing notes (3):
+    • Bandpass filter applied: 0.5–40.0 Hz, FIR zero-phase Hamming window
+    • Ocular detection used frontal fallback channel: Fp1
+    • Artifact detection found no major confounds.

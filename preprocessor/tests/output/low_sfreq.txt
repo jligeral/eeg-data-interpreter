@@ -1,0 +1,16 @@
+EEG Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/low_sfreq.edf
+  Format       : .edf
+  Quality      : ✗ POOR
+  Sampling rate: 64.0 Hz
+  Channels     : 19
+  Confounds (2):
+    • sampling_rate_low:64.0Hz
+    • ocular_moderate
+  Processing notes (5):
+    • High cutoff adjusted from 40.0 to 28.8 Hz — sampling rate only 64.0 Hz
+    • Bandpass filter applied: 0.5–28.8 Hz, FIR zero-phase Hamming window
+    • Ocular detection used frontal fallback channel: Fp1
+    • ICA removed ocular-related components [np.int64(8)] using reference Fp1.
+    • Artifact detection added confounds: ['ocular_moderate']

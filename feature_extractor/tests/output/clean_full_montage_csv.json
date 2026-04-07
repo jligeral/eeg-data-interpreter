@@ -1,0 +1,62 @@
+{
+  "filepath": "/Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/clean_full_montage.csv",
+  "file_format": ".csv",
+  "data_quality": "poor",
+  "confounds": [
+    "missing_posterior_channels:O1,O2,P3,P4,T5,T6",
+    "high_amplitude_channels:EEG1,EEG2,EEG3,EEG4,EEG5,EEG6,EEG7,EEG8,EEG9,EEG10,EEG11,EEG12,EEG13,EEG14,EEG15,EEG16,EEG17,EEG18,EEG19"
+  ],
+  "channel_labels": [
+    "EEG1",
+    "EEG2",
+    "EEG3",
+    "EEG4",
+    "EEG5",
+    "EEG6",
+    "EEG7",
+    "EEG8",
+    "EEG9",
+    "EEG10",
+    "EEG11",
+    "EEG12",
+    "EEG13",
+    "EEG14",
+    "EEG15",
+    "EEG16",
+    "EEG17",
+    "EEG18",
+    "EEG19"
+  ],
+  "sampling_rate": 256.0,
+  "preprocessor_notes": [
+    "Bandpass filter applied: 0.5\u201340.0 Hz, FIR zero-phase Hamming window",
+    "Ocular artifact check skipped: no EOG or frontal proxy channel available.",
+    "Drowsiness check skipped: O1/O2 not both available.",
+    "Artifact detection found no major confounds."
+  ],
+  "embeddings_available": false,
+  "n_windows": 0,
+  "embeddings_shape": null,
+  "band_power_relative": {
+    "delta": {},
+    "theta": {},
+    "alpha": {},
+    "beta": {}
+  },
+  "band_power_absolute": {
+    "delta": {},
+    "theta": {},
+    "alpha": {},
+    "beta": {}
+  },
+  "alpha_peak_frequency": null,
+  "theta_alpha_ratio": null,
+  "posterior_alpha_power": null,
+  "processing_notes": [
+    "Band features computed from 19 channels at 256.0 Hz.",
+    "Alpha peak frequency skipped: no posterior channels available.",
+    "Resampled from 256.0 Hz to 200 Hz for REVE.",
+    "Windowed into 3 \u00d7 2000-sample windows (10s each). Z-scored and clipped to \u00b115.0.",
+    "REVE inference failed: tensors used as indices must be long, int, byte or bool tensors"
+  ]
+}

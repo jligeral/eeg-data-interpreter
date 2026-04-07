@@ -1,0 +1,11 @@
+EEG Record Summary
+══════════════════════════════════════
+  File         : nonexistent_file.edf
+  Format       : unknown
+  Quality      : ✗ POOR
+  Sampling rate: 0.0 Hz
+  Channels     : 0
+  Confounds    : none
+  Processing notes (1):
+    • Load failed: Failed to load EEG file: nonexistent_file.edf
+Reason: File does not exist: "/Users/blues/Documents/GitHub/eeg-data-interpreter/nonexistent_file.edf"

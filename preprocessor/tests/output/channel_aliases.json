@@ -1,0 +1,42 @@
+{
+  "filepath": "/Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/channel_aliases.set",
+  "file_format": ".set",
+  "sampling_rate": 256.0,
+  "n_channels": 19,
+  "channel_labels": [
+    "Fp1",
+    "Fp2",
+    "F7",
+    "F3",
+    "Fz",
+    "F4",
+    "F8",
+    "T7",
+    "C3",
+    "Cz",
+    "C4",
+    "T8",
+    "P7",
+    "P3",
+    "Pz",
+    "P4",
+    "P8",
+    "O1",
+    "O2"
+  ],
+  "missing_channels": [],
+  "unknown_channels": [],
+  "dropped_channels": [],
+  "flat_channels": [],
+  "high_amplitude_channels": [],
+  "montage_ok": true,
+  "n_epochs_before": 0,
+  "n_epochs_rejected": 0,
+  "data_quality": "good",
+  "confounds": [],
+  "processing_notes": [
+    "Bandpass filter applied: 0.5\u201340.0 Hz, FIR zero-phase Hamming window",
+    "Ocular detection used frontal fallback channel: Fp1",
+    "Artifact detection found no major confounds."
+  ]
+}

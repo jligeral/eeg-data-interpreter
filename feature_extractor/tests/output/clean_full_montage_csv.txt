@@ -1,0 +1,19 @@
+Feature Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/clean_full_montage.csv
+  Quality      : ✗ POOR
+  REVE embeds  : unavailable
+  Band power (relative, by region):
+    delta   : 
+    theta   : 
+    alpha   : 
+    beta    : 
+  Confounds (2):
+    • missing_posterior_channels:O1,O2,P3,P4,T5,T6
+    • high_amplitude_channels:EEG1,EEG2,EEG3,EEG4,EEG5,EEG6,EEG7,EEG8,EEG9,EEG10,EEG11,EEG12,EEG13,EEG14,EEG15,EEG16,EEG17,EEG18,EEG19
+  Processing notes (5):
+    • Band features computed from 19 channels at 256.0 Hz.
+    • Alpha peak frequency skipped: no posterior channels available.
+    • Resampled from 256.0 Hz to 200 Hz for REVE.
+    • Windowed into 3 × 2000-sample windows (10s each). Z-scored and clipped to ±15.0.
+    • REVE inference failed: tensors used as indices must be long, int, byte or bool tensors

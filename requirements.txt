@@ -1,0 +1,17 @@
+# Core EEG processing
+mne
+numpy
+scipy
+pandas
+
+# EEG format export (for test data generation)
+edfio
+eeglabio
+
+# Deep learning (REVE feature extractor)
+torch
+transformers
+einops
+
+# Testing
+pytest

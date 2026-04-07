@@ -1,0 +1,102 @@
+{
+  "filepath": "/Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/channel_aliases.set",
+  "file_format": ".set",
+  "data_quality": "good",
+  "confounds": [],
+  "channel_labels": [
+    "Fp1",
+    "Fp2",
+    "F7",
+    "F3",
+    "Fz",
+    "F4",
+    "F8",
+    "T7",
+    "C3",
+    "Cz",
+    "C4",
+    "T8",
+    "P7",
+    "P3",
+    "Pz",
+    "P4",
+    "P8",
+    "O1",
+    "O2"
+  ],
+  "sampling_rate": 256.0,
+  "preprocessor_notes": [
+    "Bandpass filter applied: 0.5\u201340.0 Hz, FIR zero-phase Hamming window",
+    "Ocular detection used frontal fallback channel: Fp1",
+    "Artifact detection found no major confounds."
+  ],
+  "embeddings_available": true,
+  "n_windows": 3,
+  "embeddings_shape": [
+    3,
+    512
+  ],
+  "band_power_relative": {
+    "delta": {
+      "frontal": 0.0795,
+      "central": 0.0732,
+      "parietal": 0.0856,
+      "occipital": 0.0077
+    },
+    "theta": {
+      "frontal": 0.0833,
+      "central": 0.0891,
+      "parietal": 0.0949,
+      "occipital": 0.0089
+    },
+    "alpha": {
+      "frontal": 0.1175,
+      "central": 0.114,
+      "parietal": 0.1129,
+      "occipital": 0.9103
+    },
+    "beta": {
+      "frontal": 0.3806,
+      "central": 0.3805,
+      "parietal": 0.3809,
+      "occipital": 0.0394
+    }
+  },
+  "band_power_absolute": {
+    "delta": {
+      "frontal": 10.9277,
+      "central": 10.3418,
+      "parietal": 11.9353,
+      "occipital": 10.4451
+    },
+    "theta": {
+      "frontal": 11.4567,
+      "central": 12.5908,
+      "parietal": 13.2419,
+      "occipital": 12.214
+    },
+    "alpha": {
+      "frontal": 16.1571,
+      "central": 16.0995,
+      "parietal": 15.7513,
+      "occipital": 1242.3502
+    },
+    "beta": {
+      "frontal": 52.322,
+      "central": 53.7536,
+      "parietal": 53.1255,
+      "occipital": 53.8309
+    }
+  },
+  "alpha_peak_frequency": 10.0,
+  "theta_alpha_ratio": 0.0252,
+  "posterior_alpha_power": 0.8361,
+  "processing_notes": [
+    "Band features computed from 19 channels at 256.0 Hz.",
+    "Posterior alpha peak at 10.00 Hz \u2014 within normal range.",
+    "Theta/alpha ratio 0.025 \u2014 within normal range.",
+    "Resampled from 256.0 Hz to 200 Hz for REVE.",
+    "Windowed into 3 \u00d7 2000-sample windows (10s each). Z-scored and clipped to \u00b115.0.",
+    "REVE encoded 3 windows \u2192 embeddings shape (3, 512)."
+  ]
+}

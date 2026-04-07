@@ -1,0 +1,115 @@
+{
+  "filepath": "/Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/low_sfreq.edf",
+  "file_format": ".edf",
+  "data_quality": "poor",
+  "confounds": [
+    "sampling_rate_low:64.0Hz",
+    "ocular_moderate"
+  ],
+  "channel_labels": [
+    "Fp1",
+    "Fp2",
+    "F7",
+    "F3",
+    "Fz",
+    "F4",
+    "F8",
+    "T3",
+    "C3",
+    "Cz",
+    "C4",
+    "T4",
+    "T5",
+    "P3",
+    "Pz",
+    "P4",
+    "T6",
+    "O1",
+    "O2"
+  ],
+  "sampling_rate": 64.0,
+  "preprocessor_notes": [
+    "High cutoff adjusted from 40.0 to 28.8 Hz \u2014 sampling rate only 64.0 Hz",
+    "Bandpass filter applied: 0.5\u201328.8 Hz, FIR zero-phase Hamming window",
+    "Ocular detection used frontal fallback channel: Fp1",
+    "ICA removed ocular-related components [np.int64(8)] using reference Fp1.",
+    "Artifact detection added confounds: ['ocular_moderate']"
+  ],
+  "embeddings_available": true,
+  "n_windows": 3,
+  "embeddings_shape": [
+    3,
+    512
+  ],
+  "band_power_relative": {
+    "delta": {
+      "frontal": 0.1118,
+      "temporal": 0.1163,
+      "central": 0.1269,
+      "parietal": 0.1153,
+      "occipital": 0.0258
+    },
+    "theta": {
+      "frontal": 0.1326,
+      "temporal": 0.1208,
+      "central": 0.1388,
+      "parietal": 0.1322,
+      "occipital": 0.0281
+    },
+    "alpha": {
+      "frontal": 0.174,
+      "temporal": 0.1742,
+      "central": 0.1666,
+      "parietal": 0.1613,
+      "occipital": 0.8134
+    },
+    "beta": {
+      "frontal": 0.5602,
+      "temporal": 0.5726,
+      "central": 0.5479,
+      "parietal": 0.5719,
+      "occipital": 0.127
+    }
+  },
+  "band_power_absolute": {
+    "delta": {
+      "frontal": 37.7828,
+      "temporal": 41.5458,
+      "central": 46.4655,
+      "parietal": 43.6758,
+      "occipital": 42.4454
+    },
+    "theta": {
+      "frontal": 44.8165,
+      "temporal": 43.1675,
+      "central": 50.8317,
+      "parietal": 50.0863,
+      "occipital": 46.2939
+    },
+    "alpha": {
+      "frontal": 58.8163,
+      "temporal": 62.2164,
+      "central": 61.0018,
+      "parietal": 61.1255,
+      "occipital": 1338.1174
+    },
+    "beta": {
+      "frontal": 189.395,
+      "temporal": 204.5638,
+      "central": 200.6118,
+      "parietal": 216.6658,
+      "occipital": 208.9247
+    }
+  },
+  "alpha_peak_frequency": 10.0,
+  "theta_alpha_ratio": 0.1185,
+  "posterior_alpha_power": 0.6136,
+  "processing_notes": [
+    "Band features computed from 19 channels at 64.0 Hz.",
+    "Posterior alpha peak at 10.00 Hz \u2014 within normal range.",
+    "Theta/alpha ratio 0.118 \u2014 within normal range.",
+    "Resampled from 64.0 Hz to 200 Hz for REVE.",
+    "Windowed into 3 \u00d7 2000-sample windows (10s each). Z-scored and clipped to \u00b115.0.",
+    "REVE encoded 3 windows \u2192 embeddings shape (3, 512)."
+  ]
+}

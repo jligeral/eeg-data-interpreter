@@ -1,0 +1,22 @@
+Feature Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/missing_posterior.edf
+  Quality      : ✗ POOR
+  REVE embeds  : 3 windows × 512 dims
+  Alpha peak   : 10.00 Hz
+  θ/α ratio    : 0.025
+  Post. alpha  : 0.835 (relative)
+  Band power (relative, by region):
+    delta   : frontal=0.080  temporal=0.084  central=0.073  parietal=0.013
+    theta   : frontal=0.083  temporal=0.092  central=0.089  parietal=0.014
+    alpha   : frontal=0.117  temporal=0.109  central=0.114  parietal=0.870
+    beta    : frontal=0.381  temporal=0.388  central=0.381  parietal=0.056
+  Confounds (1):
+    • missing_posterior_channels:O1,O2
+  Processing notes (6):
+    • Band features computed from 17 channels at 256.0 Hz.
+    • Posterior alpha peak at 10.00 Hz — within normal range.
+    • Theta/alpha ratio 0.025 — within normal range.
+    • Resampled from 256.0 Hz to 200 Hz for REVE.
+    • Windowed into 3 × 2000-sample windows (10s each). Z-scored and clipped to ±15.0.
+    • REVE encoded 3 windows → embeddings shape (3, 512).

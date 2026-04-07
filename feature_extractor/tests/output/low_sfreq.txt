@@ -1,0 +1,23 @@
+Feature Record Summary
+══════════════════════════════════════
+  File         : /Users/blues/Documents/GitHub/eeg-data-interpreter/preprocessor/data/generated/low_sfreq.edf
+  Quality      : ✗ POOR
+  REVE embeds  : 3 windows × 512 dims
+  Alpha peak   : 10.00 Hz
+  θ/α ratio    : 0.118
+  Post. alpha  : 0.614 (relative)
+  Band power (relative, by region):
+    delta   : frontal=0.112  temporal=0.116  central=0.127  parietal=0.115  occipital=0.026
+    theta   : frontal=0.133  temporal=0.121  central=0.139  parietal=0.132  occipital=0.028
+    alpha   : frontal=0.174  temporal=0.174  central=0.167  parietal=0.161  occipital=0.813
+    beta    : frontal=0.560  temporal=0.573  central=0.548  parietal=0.572  occipital=0.127
+  Confounds (2):
+    • sampling_rate_low:64.0Hz
+    • ocular_moderate
+  Processing notes (6):
+    • Band features computed from 19 channels at 64.0 Hz.
+    • Posterior alpha peak at 10.00 Hz — within normal range.
+    • Theta/alpha ratio 0.118 — within normal range.
+    • Resampled from 64.0 Hz to 200 Hz for REVE.
+    • Windowed into 3 × 2000-sample windows (10s each). Z-scored and clipped to ±15.0.
+    • REVE encoded 3 windows → embeddings shape (3, 512).

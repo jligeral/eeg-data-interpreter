@@ -1,0 +1,20 @@
+{
+  "filepath": "nonexistent_file.edf",
+  "file_format": "",
+  "sampling_rate": 0.0,
+  "n_channels": 0,
+  "channel_labels": [],
+  "missing_channels": [],
+  "unknown_channels": [],
+  "dropped_channels": [],
+  "flat_channels": [],
+  "high_amplitude_channels": [],
+  "montage_ok": true,
+  "n_epochs_before": 0,
+  "n_epochs_rejected": 0,
+  "data_quality": "poor",
+  "confounds": [],
+  "processing_notes": [
+    "Load failed: Failed to load EEG file: nonexistent_file.edf\nReason: File does not exist: \"/Users/blues/Documents/GitHub/eeg-data-interpreter/nonexistent_file.edf\""
+  ]
+}
