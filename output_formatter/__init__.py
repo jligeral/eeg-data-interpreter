@@ -1,0 +1,1 @@
+from output_formatter.formatter import format_report

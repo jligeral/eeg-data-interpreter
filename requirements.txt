@@ -22,5 +22,9 @@ reformer-pytorch
 # Reasoning agent
 ollama
 
+# Frontend
+streamlit
+plotly
+
 # Testing
 pytest

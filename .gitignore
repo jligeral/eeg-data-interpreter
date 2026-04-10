@@ -1,2 +1,11 @@
 .venv
 .idea
+
+# Data — keep out of git
+data/
+preprocessor/data/generated/
+
+# LEAD source (cloned separately) and model weights
+lead/*
+!lead/README.md
+checkpoints/
