@@ -26,9 +26,7 @@ output_formatter    EEGReport → human-readable text · machine-readable JSON
 ## Requirements
 
 - **Python 3.10+**
-- **[Ollama](https://ollama.com)** — runs Qwen3:8b locally
-- **16 GB RAM** recommended (Qwen3:8b is 5.2 GB; LEAD model adds ~200 MB)
-- Apple Silicon (MPS) or CPU — no GPU required
+- **[Ollama](https://ollama.com)** to run Qwen3:8b (or your desired reasoning llm) locally
 
 ---
 
@@ -77,7 +75,7 @@ Place the fine-tuned checkpoint at:
 checkpoints/LEADv2/finetuned/checkpoint.pth
 ```
 
-Ask a teammate who has already run the fine-tuning for this file, or follow the **Fine-tuning** section below to produce it yourself.
+Follow the **Fine-tuning** section below to produce it yourself.
 
 > If you only have the P-Base pretrain checkpoint, place it at `checkpoints/LEADv2/P-Base/checkpoint.pth` and update `_CHECKPOINT` in `feature_extractor/lead_encoder.py` accordingly. AD probability will not be available with the pretrain checkpoint.
 
@@ -97,7 +95,7 @@ ollama serve
 
 Leave this running in a background terminal.
 
-### 7. Download real demo data (optional)
+### 7. Download demo data
 
 Downloads one AD and one HC subject from the public ADFTD dataset (OpenNeuro ds004504):
 
@@ -154,63 +152,7 @@ python -m pytest preprocessor/tests/test_integration.py \
 
 The AD probability score requires a fine-tuned LEAD checkpoint trained on labeled AD/HC data. The pretrain checkpoint only produces embeddings.
 
-### Option A — Use Google Colab (recommended)
-
-1. Open a new Colab notebook with a **T4 or A100 GPU** runtime
-2. Run the following cells:
-
-```python
-# Install dependencies
-!git clone https://github.com/DL4mHealth/LEAD
-%cd LEAD
-!pip install -q --no-deps "reformer-pytorch==1.4.4" "linear-attention-transformer==0.19.1"
-!pip install -q "timm==0.6.13" "natsort" "gdown" "mne"
-
-# Fix compatibility issues with newer Python/NumPy/PyTorch
-!sed -i 's/super().__init__(dataset)/super().__init__()/' utils/tools.py
-!sed -i 's/np\.Inf/np.inf/g' utils/tools.py
-
-# Download P-Base pretrain checkpoint
-!mkdir -p checkpoints/LEADv2/pretrain_lead/LEADv2/P-Base/nh8_el12_dm128_df256_seed41
-!gdown --folder https://drive.google.com/drive/folders/1_XUfU3vZB40rjivkNYf8L2slCahXPo43 \
-    -O checkpoints/LEADv2/pretrain_lead/LEADv2/P-Base/nh8_el12_dm128_df256_seed41/
-# Fix doubled path if needed:
-!find checkpoints -name "checkpoint.pth" | head -5
-
-# Download ADFTD fine-tuning dataset
-!mkdir -p dataset/L400
-!gdown --folder https://drive.google.com/drive/folders/1y66f_Id-kal7q8uu-YYF2qTUHfhbPXOX \
-    -O dataset/L400/
-
-# Fine-tune
-!python -u run.py --method LEADv2 \
-    --checkpoints_path ./checkpoints/LEADv2/pretrain_lead/LEADv2/P-Base/nh8_el12_dm128_df256_seed41/checkpoint.pth \
-    --task_name finetune --is_training 1 \
-    --root_path ./dataset/L400/dataset/L400/ \
-    --model_id P-Base-F-ADFTD --model LEADv2 --data MultiDatasets \
-    --training_datasets ADFTD --testing_datasets ADFTD \
-    --e_layers 12 --batch_size 128 --n_heads 8 --d_model 128 --d_ff 256 \
-    --patch_len 50 --stride 50 --group_shuffle --group_size 8 \
-    --sampling_rate_list 200,100,50 --ratio_a 0.8 --ratio_b 0.9 \
-    --montage_name standard_1005 \
-    --channel_names Fp1,Fp2,F7,F3,Fz,F4,F8,T7,C3,Cz,C4,T8,P7,P3,Pz,P4,P8,O1,O2 \
-    --classify_choice ad_vs_hc --cross_val mccv \
-    --learning_rate 0.0001 --train_epochs 50 --patience 10
-
-# Save checkpoint to Google Drive
-from google.colab import drive
-drive.mount('/content/drive')
-import shutil, glob
-ckpt = glob.glob('checkpoints/LEADv2/finetune/**/*.pth', recursive=True)[0]
-shutil.copy(ckpt, '/content/drive/MyDrive/lead_finetuned_checkpoint.pth')
-print('Saved:', ckpt)
-```
-
-3. Download `lead_finetuned_checkpoint.pth` and place it at `checkpoints/LEADv2/finetuned/checkpoint.pth` in this project.
-
-> Training takes ~4 hours on T4, ~45 minutes on A100.
-
-### Option B — Use your own labeled data
+### Using your own labeled data
 
 If you have EEG recordings labeled as AD or HC, organise them as:
 
