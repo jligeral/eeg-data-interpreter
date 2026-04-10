@@ -221,6 +221,29 @@ def render_next_steps(report):
 st.title("🧠 EEG Interpreter")
 st.caption("Alzheimer's-focused quantitative EEG reasoning pipeline · Powered by LEAD + Qwen3:8b")
 
+_EEG_EXTS = {".fif", ".edf", ".bdf", ".set", ".gdf", ".cnt", ".vhdr",
+             ".csv", ".tsv", ".npz", ".npy", ".mat"}
+
+_DEMO_DIR  = Path(__file__).parent / "data" / "demo"
+_SYNTH_DIR = Path(__file__).parent / "preprocessor" / "data" / "generated"
+
+
+def _label_for(path: Path) -> str:
+    """Infer AD/HC label from parent directory name."""
+    parent = path.parent.name.upper()
+    if parent == "AD":
+        return "🔴 AD"
+    if parent == "HC":
+        return "🟢 HC"
+    return ""
+
+
+def _list_files(directory: Path) -> list[Path]:
+    if not directory.exists():
+        return []
+    return sorted(f for f in directory.rglob("*") if f.suffix.lower() in _EEG_EXTS)
+
+
 # Sidebar
 with st.sidebar:
     st.header("Input")
@@ -229,13 +252,28 @@ with st.sidebar:
         type=["edf", "bdf", "fif", "set", "gdf", "cnt", "vhdr", "csv", "tsv", "npz", "npy", "mat"],
         help="Supported: EDF, BDF, FIF, SET, GDF, CNT, VHDR, CSV, NPZ, MAT",
     )
+
     st.divider()
-    st.markdown("**Or use a generated test file:**")
-    test_dir = Path(__file__).parent / "preprocessor" / "data" / "generated"
-    test_files = sorted(test_dir.glob("*")) if test_dir.exists() else []
-    test_names = [f.name for f in test_files if f.suffix in
-                  {".fif", ".edf", ".set", ".npz", ".mat", ".csv"}]
-    selected_test = st.selectbox("Test file", ["(none)"] + test_names)
+
+    # Real demo files (data/demo/AD/ and data/demo/HC/)
+    demo_files = _list_files(_DEMO_DIR)
+    if demo_files:
+        st.markdown("**Real EEG files** *(ADFTD dataset)*")
+        demo_options = {f"{_label_for(f)}  {f.name}": f for f in demo_files}
+        selected_demo = st.selectbox("Subject", ["(none)"] + list(demo_options.keys()))
+    else:
+        selected_demo = "(none)"
+        st.markdown("**Real EEG files**")
+        st.caption("None found. Run `python scripts/download_demo_data.py` to fetch AD + HC subjects.")
+
+    st.divider()
+
+    # Synthetic test files
+    st.markdown("**Synthetic test files**")
+    synth_files = _list_files(_SYNTH_DIR)
+    synth_options = {f.name: f for f in synth_files}
+    selected_synth = st.selectbox("Test file", ["(none)"] + list(synth_options.keys()))
+
     run_btn = st.button("Run pipeline", type="primary", use_container_width=True)
 
 # Determine input path
@@ -246,8 +284,10 @@ if uploaded:
     tmp.write(uploaded.read())
     tmp.flush()
     input_path = tmp.name
-elif selected_test != "(none)":
-    input_path = str(test_dir / selected_test)
+elif selected_demo != "(none)" and demo_files:
+    input_path = str(demo_options[selected_demo])
+elif selected_synth != "(none)":
+    input_path = str(synth_options[selected_synth])
 
 # Run and display
 if run_btn:

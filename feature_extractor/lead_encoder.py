@@ -24,7 +24,7 @@ from feature_extractor.feature_record import FeatureRecord
 # Paths
 _REPO_ROOT = Path(__file__).parent.parent
 _LEAD_DIR = _REPO_ROOT / "lead"
-_CHECKPOINT = _REPO_ROOT / "checkpoints" / "LEADv2" / "P-Base" / "checkpoint.pth"
+_CHECKPOINT = _REPO_ROOT / "checkpoints" / "LEADv2" / "finetuned" / "checkpoint.pth"
 
 # P-Base model configuration
 _PBASE_CONFIG = dict(
