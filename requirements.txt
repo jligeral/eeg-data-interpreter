@@ -1,0 +1,30 @@
+# Core EEG processing
+mne
+mne-connectivity
+autoreject
+numpy
+scipy
+pandas
+h5py
+
+# EEG format support
+edfio
+eeglabio
+pybv
+
+# Deep learning (LEAD encoder)
+torch
+transformers
+einops
+linear-attention-transformer
+reformer-pytorch
+
+# Reasoning agent
+ollama
+
+# Frontend
+streamlit
+plotly
+
+# Testing
+pytest
