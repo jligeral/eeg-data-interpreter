@@ -158,7 +158,13 @@ def encode_with_lead(
         record.processing_notes.append(f"LEAD encoding skipped: {reason}")
         return record
 
-    model, classifier_available, ckpt_note = _load_model(channel_names)
+    try:
+        model, classifier_available, ckpt_note = _load_model(channel_names)
+    except Exception as e:
+        record.processing_notes.append(f"LEAD encoding skipped: model load failed: {e}")
+        record.lead_embeddings_available = False
+        return record
+
     if ckpt_note:
         record.processing_notes.append(f"LEAD weights: {ckpt_note}")
 

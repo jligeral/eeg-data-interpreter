@@ -64,6 +64,11 @@ class ObjectiveFindings:
 
     preprocessor_notes: list[str]
 
+    # Visualization data
+    psd_freqs: list = field(default_factory=list)
+    psd_by_region: dict = field(default_factory=dict)
+    lead_ad_per_window: list = field(default_factory=list)
+
 
 # ---------------------------------------------------------------------------
 # Section 2: Differential Diagnosis

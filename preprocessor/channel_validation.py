@@ -1,3 +1,5 @@
+import re
+
 import mne
 import numpy as np
 from preprocessor.eeg_record import EEGRecord
@@ -25,6 +27,13 @@ MIN_SAMPLING_RATE_HZ = 80
 FLAT_VARIANCE_THRESHOLD_UV2 = 1.0
 HIGH_AMPLITUDE_THRESHOLD_UV = 500.0
 
+# EGI HydroCel Geodesic Sensor Net montage names by max electrode count
+_EGI_MONTAGES = {
+    64:  "GSN-HydroCel-64_1.0",
+    128: "GSN-HydroCel-128",
+    256: "GSN-HydroCel-256",
+}
+
 
 def canonicalize_channel(name: str) -> str:
     clean = name.strip()
@@ -34,6 +43,78 @@ def canonicalize_channel(name: str) -> str:
     return CHANNEL_ALIASES.get(clean, clean)
 
 
+def _detect_egi(ch_names: list[str]) -> int | None:
+    """
+    Return the max electrode number if ≥80% of channels look like EGI E-notation
+    (E1, E2, …), otherwise None.
+    """
+    nums = []
+    for ch in ch_names:
+        m = re.match(r"^E(\d+)$", ch, re.IGNORECASE)
+        if m:
+            nums.append(int(m.group(1)))
+    if len(nums) < len(ch_names) * 0.8:
+        return None
+    return max(nums)
+
+
+def _build_egi_rename_map(ch_names: list[str], max_num: int) -> dict[str, str]:
+    """
+    Nearest-neighbour map from EGI electrode names to standard 10-20 names,
+    using MNE's built-in EGI montage positions as the reference geometry.
+
+    Returns a dict {egi_name: standard_10_20_name} covering as many of the
+    19 expected channels as the EGI layout can support.
+    """
+    # Pick the smallest EGI montage that covers the electrode count
+    montage_name = None
+    for size in sorted(_EGI_MONTAGES):
+        if max_num <= size:
+            montage_name = _EGI_MONTAGES[size]
+            break
+    if montage_name is None:
+        return {}
+
+    try:
+        egi_montage = mne.channels.make_standard_montage(montage_name)
+        std_montage = mne.channels.make_standard_montage("standard_1020")
+    except Exception:
+        return {}
+
+    egi_pos_dict = egi_montage.get_positions()["ch_pos"]
+    std_pos_dict = std_montage.get_positions()["ch_pos"]
+
+    # Only work with EGI channels that are actually present in this file
+    present = [ch for ch in ch_names if ch in egi_pos_dict]
+    if not present:
+        return {}
+
+    targets = [ch for ch in EXPECTED_CHANNELS_10_20 if ch in std_pos_dict]
+    if not targets:
+        return {}
+
+    present_pos = np.array([egi_pos_dict[ch] for ch in present])   # (n_egi, 3)
+    target_pos  = np.array([std_pos_dict[ch]  for ch in targets])   # (n_std, 3)
+
+    # For each target 10-20 channel find the closest EGI electrode
+    dists = np.linalg.norm(
+        target_pos[:, None, :] - present_pos[None, :, :], axis=-1
+    )  # (n_std, n_egi)
+
+    rename_map: dict[str, str] = {}
+    used: set[str] = set()
+    # Assign greedily in order of increasing distance to keep best matches first
+    order = np.argsort(dists.min(axis=1))  # std channels sorted by their best match distance
+    for std_idx in order:
+        egi_idx = int(np.argmin(dists[std_idx]))
+        egi_name = present[egi_idx]
+        if egi_name not in used:
+            rename_map[egi_name] = targets[std_idx]
+            used.add(egi_name)
+
+    return rename_map
+
+
 def validate_channels(record: EEGRecord) -> EEGRecord:
     raw = record.raw
     if raw is None:
@@ -41,7 +122,22 @@ def validate_channels(record: EEGRecord) -> EEGRecord:
         record.data_quality = "poor"
         return record
 
-    # Build canonical name map and rename in-place
+    # EGI E-notation → 10-20 mapping (must run before generic canonicalization)
+    max_egi = _detect_egi(raw.ch_names)
+    if max_egi is not None:
+        egi_map = _build_egi_rename_map(raw.ch_names, max_egi)
+        if egi_map:
+            raw.rename_channels(egi_map)
+            record.processing_notes.append(
+                f"EGI montage detected (max E{max_egi}): mapped "
+                f"{len(egi_map)} electrodes to 10-20 names."
+            )
+        else:
+            record.processing_notes.append(
+                f"EGI montage detected (max E{max_egi}) but position mapping failed."
+            )
+
+    # Generic canonicalization (strip suffixes, apply aliases)
     rename_map = {}
     for ch in raw.ch_names:
         canonical = canonicalize_channel(ch)
@@ -49,9 +145,19 @@ def validate_channels(record: EEGRecord) -> EEGRecord:
             rename_map[ch] = canonical
     if rename_map:
         raw.rename_channels(rename_map)
-        record.processing_notes.append(
-            f"Renamed channels: {rename_map}"
-        )
+        record.processing_notes.append(f"Renamed channels: {rename_map}")
+
+    # Case-correct any channel whose uppercase matches a 10-20 name
+    # (e.g. FZ → Fz, CZ → Cz, FP1 → Fp1)
+    _upper_to_10_20 = {ch.upper(): ch for ch in EXPECTED_CHANNELS_10_20}
+    case_map = {
+        ch: _upper_to_10_20[ch.upper()]
+        for ch in raw.ch_names
+        if ch.upper() in _upper_to_10_20 and ch != _upper_to_10_20[ch.upper()]
+    }
+    if case_map:
+        raw.rename_channels(case_map)
+        record.processing_notes.append(f"Corrected channel casing: {case_map}")
 
     canonical_set = {ch.upper() for ch in raw.ch_names}
     expected_upper = {ch.upper(): ch for ch in EXPECTED_CHANNELS_10_20}

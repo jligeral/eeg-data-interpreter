@@ -1,5 +1,10 @@
 import numpy as np
 from scipy.signal import welch
+
+try:
+    _trapz = np.trapezoid   # NumPy 2.0+
+except AttributeError:
+    _trapz = np.trapz       # NumPy < 2.0
 from itertools import combinations
 import mne
 from mne_connectivity import spectral_connectivity_epochs
@@ -47,6 +52,8 @@ def compute_band_features(record: EEGRecord) -> dict:
         "alpha_peak_frequency": None,
         "theta_alpha_ratio": None,
         "posterior_alpha_power": None,
+        "psd_freqs": [],
+        "psd_by_region": {},
         "notes": [],
     }
 
@@ -66,6 +73,25 @@ def compute_band_features(record: EEGRecord) -> dict:
     freqs, psd = welch(data_uv, fs=sfreq, nperseg=nperseg)  # (n_ch, n_freqs)
 
     total_power = psd.sum(axis=1)  # (n_ch,) — sum across all freqs
+
+    # --- Store PSD for visualization (0.5–40 Hz) ---
+    vis_mask = (freqs >= 0.5) & (freqs <= 40.0)
+    vis_freqs = freqs[vis_mask]
+    result["psd_freqs"] = vis_freqs.tolist()
+    psd_by_region: dict = {}
+    for region, region_chs in REGIONS.items():
+        idxs = [
+            i for i, ch in enumerate(ch_names)
+            if ch.upper() in {r.upper() for r in region_chs}
+        ]
+        if not idxs:
+            continue
+        region_psd = psd[idxs][:, vis_mask].mean(axis=0)
+        area = float(_trapz(region_psd, vis_freqs))
+        if area > 0:
+            region_psd = region_psd / area
+        psd_by_region[region] = region_psd.tolist()
+    result["psd_by_region"] = psd_by_region
 
     # --- Per-band, per-region power ---
     for band_name, (lo, hi) in BANDS.items():
@@ -194,6 +220,14 @@ def compute_posterior_coherence(record: EEGRecord) -> dict:
 
     raw_post = raw.copy().pick(available)
     sfreq = raw_post.info["sfreq"]
+
+    min_duration = COHERENCE_EPOCH_DURATION * 2
+    if raw_post.times[-1] < min_duration:
+        result["notes"].append(
+            f"Coherence skipped: recording too short "
+            f"({raw_post.times[-1]:.1f}s < {min_duration:.0f}s needed for 2 epochs)."
+        )
+        return result
 
     events = mne.make_fixed_length_events(raw_post, duration=COHERENCE_EPOCH_DURATION)
     if len(events) < 2:

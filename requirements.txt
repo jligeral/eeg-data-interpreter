@@ -26,5 +26,8 @@ ollama
 streamlit
 plotly
 
+# Evaluation
+scikit-learn
+
 # Testing
 pytest

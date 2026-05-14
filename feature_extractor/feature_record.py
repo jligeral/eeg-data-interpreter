@@ -37,6 +37,19 @@ class FeatureRecord:
     posterior_alpha_coherence: Optional[float] = None  # mean alpha coherence between posterior pairs
     coherence_pairs: dict = field(default_factory=dict)
 
+    # Time-domain complexity biomarkers
+    sample_entropy: Optional[float] = None       # lower in AD (reduced signal complexity)
+    hjorth_mobility: Optional[float] = None      # related to mean frequency
+    hjorth_complexity: Optional[float] = None    # lower in AD (simpler waveform shape)
+
+    # PSD for visualization (0.5–40 Hz, normalized per region)
+    psd_freqs: list = field(default_factory=list)
+    psd_by_region: dict = field(default_factory=dict)
+
+    # Waveform snapshots for viewer (first ~15 s, ≤250 Hz)
+    waveform_pre: dict = field(default_factory=dict)   # before bandpass filter
+    waveform_post: dict = field(default_factory=dict)  # after all preprocessing
+
     # Feature extraction notes
     processing_notes: list = field(default_factory=list)
 
@@ -61,6 +74,9 @@ class FeatureRecord:
             "posterior_alpha_power": self.posterior_alpha_power,
             "posterior_alpha_coherence": self.posterior_alpha_coherence,
             "coherence_pairs": self.coherence_pairs,
+            "sample_entropy": self.sample_entropy,
+            "hjorth_mobility": self.hjorth_mobility,
+            "hjorth_complexity": self.hjorth_complexity,
             "processing_notes": self.processing_notes,
         }
 

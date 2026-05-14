@@ -23,6 +23,11 @@ class EEGRecord:
 
     referenced: bool = False  # True once average reference is applied
 
+    # Short signal snapshots for waveform viewer (populated by preprocess())
+    # Format: {"channels": [...], "times": [...], "data": [[ch0...], [ch1...], ...]}
+    snapshot_pre: dict = field(default_factory=dict)   # after channel validation, before filter
+    snapshot_post: dict = field(default_factory=dict)  # after all preprocessing steps
+
     data_quality: str = "unknown"
     confounds: list = field(default_factory=list)
     processing_notes: list = field(default_factory=list)

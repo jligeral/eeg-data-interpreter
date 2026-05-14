@@ -46,7 +46,7 @@ def compute_embedding_stats(
     n_windows, total_dim = embeddings.shape
     enc_in = total_dim // _D_MODEL
 
-    channels = channel_names if channel_names else _CHANNEL_ORDER[:enc_in]
+    channels = (channel_names if channel_names else _CHANNEL_ORDER)[:enc_in]
 
     # --- Inter-window variance ---
     # Mean variance across embedding dimensions; high = more dynamic variation

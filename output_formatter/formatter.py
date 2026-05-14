@@ -87,6 +87,37 @@ def _build_biomarkers(feat: FeatureRecord) -> list[BiomarkerValue]:
             note="LEAD model probability of AD-like EEG pattern." if adp > 0.60 else "",
         ))
 
+    # Time-domain complexity biomarkers
+    se = feat.sample_entropy
+    markers.append(BiomarkerValue(
+        name="Sample entropy (mean, m=2, r=0.2σ)",
+        value=se,
+        unit="nats",
+        abnormal=se is not None and se < 0.90,
+        reference_range="> 0.90 (healthy adults)",
+        note="Reduced complexity consistent with more predictable, less irregular EEG — seen in AD." if se is not None and se < 0.90 else "",
+    ))
+
+    hc = feat.hjorth_complexity
+    markers.append(BiomarkerValue(
+        name="Hjorth complexity (mean)",
+        value=hc,
+        unit="ratio",
+        abnormal=hc is not None and hc < 1.40,
+        reference_range="> 1.40",
+        note="Reduced waveform complexity; lower values indicate simplified oscillatory dynamics." if hc is not None and hc < 1.40 else "",
+    ))
+
+    hm = feat.hjorth_mobility
+    markers.append(BiomarkerValue(
+        name="Hjorth mobility (mean)",
+        value=hm,
+        unit="rad/s (normalised)",
+        abnormal=False,
+        reference_range="N/A (context-dependent)",
+        note="",
+    ))
+
     return markers
 
 
@@ -177,6 +208,9 @@ def format_report(
         lead_ad_probability=feat.lead_ad_probability,
         lead_embedding_stats=reasoning.embedding_stats,
         preprocessor_notes=list(feat.preprocessor_notes),
+        psd_freqs=list(feat.psd_freqs),
+        psd_by_region=dict(feat.psd_by_region),
+        lead_ad_per_window=list(feat.lead_ad_per_window),
     )
 
     # ── Differential diagnosis ──────────────────────────────────────────────
